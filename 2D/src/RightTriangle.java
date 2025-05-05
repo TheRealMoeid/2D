@@ -1,47 +1,18 @@
-public class RightTriangle extends Shape2D implements ITriangle {
-
-    private float base;
-    private float height;
-
-    public RightTriangle(IPoint center, float base, float height) {
-        super(center);
-        this.base = base;
-        this.height = height;
+public class RightTriangle extends Triangle {
+    public RightTriangle(double base, double height) {
+        super(base, height, calculateHypotenuse(base, height));
+        validateRightTriangle(base, height, hypotenuse);
     }
 
-    @Override
-    public float getBase() {
-        return base;
+    private static double calculateHypotenuse(double base, double height) {
+        return Math.sqrt(base * base + height * height);
     }
 
-    @Override
-    public float getHeight() {
-        return height;
-    }
-
-    @Override
-    public void setBase(float base) {
-        this.base = base;
-    }
-
-    @Override
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
-    @Override
-    public double getArea() {
-        return 0.5 * base * height;
-    }
-
-    @Override
-    public double getPerimeter() {
-        double hypotenuse = Math.sqrt(base * base + height * height);
-        return base + height + hypotenuse;
-    }
-
-    @Override
-    public ShapeType getType() {
-        return ShapeType.Unknown;
+    // بررسی صحت مثلث قائم‌الزاویه
+    private void validateRightTriangle(double a, double b, double c) {
+        double tolerance = 0.0001;
+        if (Math.abs(a*a + b*b - c*c) > tolerance) {
+            throw new IllegalArgumentException("Not a valid right triangle.");
+        }
     }
 }
